@@ -8,6 +8,6 @@ modules = ["core.py"]
 
 doc_url = "https://johnowhitaker.github.io/imstack/"
 
-git_url = "https://github.com/johnowhitaker/imstack/tree/{branch}/"
+git_url = "https://github.com/johnowhitaker/imstack/tree/main/"
 
 def custom_doc_links(name): return None

@@ -58,7 +58,7 @@ class ImStack(nn.Module):
         out = self.forward()
         residual = (torch.logit(im) - torch.logit(out))
         Image.fromarray((torch.logit(residual).detach().cpu().squeeze().permute([1, 2, 0]) * 255).numpy().astype(np.uint8)).save(f'residual{i}.png')
-        self.layers[i] = downscalers[i](residual).squeeze()
+        self.layers[i] = downscalers[i](residual).squeeze().float()
 
     for l in self.layers: l.requires_grad = True
 
