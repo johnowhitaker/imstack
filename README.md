@@ -4,7 +4,7 @@
 
 Optimizing the pixel values of an image to minimize some loss is common in some applications like style transfer. But because a change to any one pixel doesn't affect much of the image, results are often noisy and slow. By representing an image as a stack of layers at different resolutions, we get parameters that affect a large part of the image (low-res layers) as well as some that can encode fine detail (the high-res layers). There are better ways to do this, but I found myself using this approach enough that I decided to turn it into a proper library. 
 
-TODO: link to demos for different tasks
+Here's a [colab notebook](https://colab.research.google.com/drive/10gSIlqRGom18kl8NZSytyWYciej8H46N?usp=sharing) showing this in action, generating images to match a CLIP prompt.
 
 ## Install
 
@@ -86,4 +86,6 @@ ims_w_init.plot_layers()
 
 # Examples
 
-Coming soon, examples of this in practice.
+Text-to-image with ImStack+CLIP ([colab link](https://colab.research.google.com/drive/10gSIlqRGom18kl8NZSytyWYciej8H46N?usp=sharing))
+
+More coming soon :)
