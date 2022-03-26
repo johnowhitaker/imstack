@@ -1,0 +1,38 @@
+package:
+  name: imstack
+  version: 0.0.3
+source:
+  sha256: 215b726d98be3c45271b323b275314c12325bbd08ff1bdeb575d256a5ffa2e04
+  url: https://files.pythonhosted.org/packages/91/b8/c34343e78d7ed14ca0030ad06ef0de33803cc6ad349461379507410996f7/imstack-0.0.3.tar.gz
+about:
+  dev_url: https://johnowhitaker.github.io
+  doc_url: https://johnowhitaker.github.io
+  home: https://johnowhitaker.github.io
+  license: Apache Software
+  license_family: APACHE
+  summary: Represent an image as a stack of different sized tensors
+build:
+  noarch: python
+  number: '0'
+  script: '{{ PYTHON }} -m pip install . -vv'
+extra:
+  recipe-maintainers:
+  - johnowhitaker
+requirements:
+  host:
+  - pip
+  - python
+  - packaging
+  - torch
+  - pillow
+  - matplotlib
+  run:
+  - pip
+  - python
+  - packaging
+  - torch
+  - pillow
+  - matplotlib
+test:
+  imports:
+  - imstack
