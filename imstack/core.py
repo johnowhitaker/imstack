@@ -11,7 +11,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 class ImStack(nn.Module):
-  """ This class represents an image as a series of stacked arrays, where each is 1/2
+  """ This class represents an image as a series of stacked arrays, where each is 1/scale
   the resolution of the next. This is useful eg when trying to create an image to minimise
   some loss - parameters in the early (small) layers can have an affect on the overall
   structure and shapes while those in later layers act as residuals and fill in fine detail.
@@ -63,27 +63,29 @@ class ImStack(nn.Module):
     for l in self.layers: l.requires_grad = True
 
   def forward(self):
-    """Sums the stacked layers (upsampling them all to out_size) and then runs the result through a sigmoid funtion."""
+    """Sums the stacked layers (upsampling them all to out_size) and then runs the result through a sigmoid funtion.
+    Resulting image is a tensor, with values between 0 and 1."""
     im = self.scalers[0](self.layers[0].unsqueeze(0))
     for i in range(1, self.n_layers):
       im += self.scalers[i](self.layers[i].unsqueeze(0))
     return self.sig(im)
 
   def preview(self, n_preview=2):
-    """Useful if you want to optimise the first few layers first"""
+    """Creates an image using only the first n_preview layers. Useful if you want to optimise the first few layers before starting to optimize the entire stack."""
     im = self.preview_scalers[0](self.layers[0].unsqueeze(0))
     for i in range(1, n_preview):
       im += self.preview_scalers[i](self.layers[i].unsqueeze(0))
     return self.sig(im)
 
   def to_pil(self):
-    """Return it as a PIL Image (useful for saving, transforming, viewing etc)"""
+    """Return the result as a PIL Image (useful for saving, transforming, viewing etc)"""
     return Image.fromarray((self.forward().detach().cpu().squeeze().permute([1, 2, 0]) * 255).numpy().astype(np.uint8))
 
   def preview_pil(self):
     return Image.fromarray((self.preview().detach().cpu().squeeze().permute([1, 2, 0]) * 255).numpy().astype(np.uint8))
 
   def save(self, fn):
+    """Save the image to a given filename (fn)"""
     self.to_pil().save(fn)
 
   def plot_layers(self):
