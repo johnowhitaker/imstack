@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 class ImStack(nn.Module):
   """ This class represents an image as a series of stacked arrays, where each is 1/scale
   the resolution of the next. This is useful eg when trying to create an image to minimise
-  some loss - parameters in the early (small) layers can have an affect on the overall
+  some loss - parameters in the early (small) layers can have an effect on the overall
   structure and shapes while those in later layers act as residuals and fill in fine detail.
   """
 
