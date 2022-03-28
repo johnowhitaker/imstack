@@ -51,7 +51,7 @@ ims.to_pil()
 
 ### Loading images into an ImStack
 
-You don't need to start from scratch - pass in a PIL image and the ImStack will be initialized such that the layers combine to re-create the input image as closely as possible.
+You don't need to start from scratch - pass in a PIL image or a filename and the ImStack will be initialized such that the layers combine to re-create the input image as closely as possible.
 
 ```python
 from PIL import Image
