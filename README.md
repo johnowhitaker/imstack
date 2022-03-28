@@ -104,6 +104,8 @@ Image.open('clip_eg.png')
 
 [colab link](https://colab.research.google.com/drive/10gSIlqRGom18kl8NZSytyWYciej8H46N?usp=sharing)
 
+[and a CLOOB version](https://colab.research.google.com/drive/1PAPb2PiGHxnPwF2JaYKFnE063vXJPRfu?usp=sharing)
+
 ### Style Transfer
 Simple style transfer, with an ImStack being optimized such that content loss to one image and style loss to another are minimized.
 

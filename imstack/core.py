@@ -48,6 +48,13 @@ class ImStack(nn.Module):
     self.preview_scalers = [nn.Upsample(scale_factor=224/(l.shape[1]), mode='bilinear', align_corners=False) for l in self.layers]
 
     if init_image != None: # Given a PIL image, decompose it into a stack
+      if type(init_image) == str:
+        try:
+          init_image = Image.open(init_image)
+        except:
+          raise Exception(f"couldn't open {init_image}")
+
+      init_image = init_image.convert('RGB')
       downscalers = [nn.Upsample(scale_factor=(l.shape[1]/out_size), mode='bilinear', align_corners=False) for l in self.layers]
       final_side = base_size * (scale ** n_layers)
       im = torch.tensor(np.array(init_image.resize((out_size, out_size)))/255).clip(1e-03, 1-1e-3) # Between 0 and 1 (non-inclusive)
