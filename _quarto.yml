@@ -16,21 +16,19 @@ format:
 
 website:
   title: "imstack"
+  site-url: "https://johnowhitaker.github.io/imstack/"
   description: "Represent an image as a stack of different sized tensors"
-  execute: 
-    enabled: false
   twitter-card: true
   open-graph: true
-  reader-mode: true
   repo-branch: main
-  repo-url: https://github.com/johnowhitaker/imstack/tree/main/
+  repo-url: "https://github.com/johnowhitaker/imstack/tree/main/"
   repo-actions: [issue]
   navbar:
     background: primary
     search: true
     right:
       - icon: github
-        href: https://github.com/johnowhitaker/imstack/tree/main/
+        href: "https://github.com/johnowhitaker/imstack/tree/main/"
   sidebar:
     style: "floating"
 
