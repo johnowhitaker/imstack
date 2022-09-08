@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ImStack",
+    "section": "",
+    "text": "Optimizing the pixel values of an image to minimize some loss is common in some applications like style transfer. But because a change to any one pixel doesn’t affect much of the image, results are often noisy and slow. By representing an image as a stack of layers at different resolutions, we get parameters that affect a large part of the image (low-res layers) as well as some that can encode fine detail (the high-res layers). There are better ways to do this, but I found myself using this approach enough that I decided to turn it into a proper library.\nHere’s a colab notebook showing this in action, generating images to match a CLIP prompt."
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "ImStack",
+    "section": "Install",
+    "text": "Install\nThis package is available on pypi so install should be as easy as:\npip install imstack"
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "ImStack",
+    "section": "How to use",
+    "text": "How to use\nWe create a new image stack like so:\n\nims = ImStack(n_layers=3)\n\nBy default, the first layer is 32x32 pixels and each subsequent layer is 2x larger. We can visualize the layers with:\n\nims.plot_layers()\n\n\n\n\nThe parameters (pixels) of the layers are set to requires_grad=True, so you can pass the layers to an optimizer with something like optimizer = optim.Adam(ims.layers, lr=0.1, weight_decay=1e-4) to modify them based on some loss. Calling the forward pass (image = ims()) returns a tensor representation of the combined image, suitable for various pytorch operations.\nFor convenience, you can also get a PIL Image for easy viewing with:\n\nims.to_pil()\n\n\n\n\n\nLoading images into an ImStack\nYou don’t need to start from scratch - pass in a PIL image or a filename and the ImStack will be initialized such that the layers combine to re-create the input image as closely as possible.\n\nfrom PIL import Image\n\n# Load the input image\ninput_image = Image.open('demo_image.png')\ninput_image\n\n\n\n\nNote how the lower layers capture broad shapes while the final layer is mostly fine detail.\n\n# Create an image stack with init_image=input_image and plot the layers\nims_w_init = ImStack(n_layers=3, base_size=16, scale=4, out_size=256, init_image=input_image)\nims_w_init.plot_layers()"
+  },
+  {
+    "objectID": "CONTRIBUTING.html",
+    "href": "CONTRIBUTING.html",
+    "title": "imstack",
+    "section": "",
+    "text": "Before anything else, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:\nnbdev_install_git_hooks\n\n\n\n\nEnsure the bug was not already reported by searching on GitHub under Issues.\nIf you’re unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.\nBe sure to add the complete error messages.\n\n\n\n\nOpen a new GitHub pull request with the patch.\nEnsure that your PR includes a test that fails without your patch, and pass with it.\nEnsure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.\n\n\n\n\n\n\nKeep each PR focused. While it’s more convenient, do not combine several unrelated fixes together. Create as many branches as needing to keep each PR focused.\nDo not mix style changes/fixes with “functional” changes. It’s very difficult to review such PRs and it most likely get rejected.\nDo not add/remove vertical whitespace. Preserve the original style of the file you edit as much as you can.\nDo not turn an already submitted PR into your development playground. If after you submitted PR, you discovered that more work is needed - close the PR, do the required work and then submit a new PR. Otherwise each of your commits requires attention from maintainers of the project.\nIf, however, you submitted a PR and received a request for changes, you should proceed with commits inside that PR, so that the maintainer can see the incremental fixes and won’t need to review the whole PR again. In the exception case where you realize it’ll take many many commits to complete the requests, then it’s probably best to close the PR, do the work and then submit it again. Use common sense where you’d choose one way over another.\n\n\n\n\n\nDocs are automatically created from the notebooks in the nbs folder."
+  },
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "ImStack core",
+    "section": "",
+    "text": "source\n\nImStack\n\n ImStack (n_layers=4, base_size=32, scale=2, init_image=None,\n          out_size=256, decay=0.7, device=device(type='cpu'))\n\nThis class represents an image as a series of stacked arrays, where each is 1/scale the resolution of the next. This is useful eg when trying to create an image to minimise some loss - parameters in the early (small) layers can have an effect on the overall structure and shapes while those in later layers act as residuals and fill in fine detail.\n\nims = ImStack()\n\n\nims.to_pil()\n\n\n\n\n\nims.plot_layers()\n\n\n\n\n\n\nIncluded functions\n\nsource\n\n\nImStack.__init__\n\n ImStack.__init__ (n_layers=4, base_size=32, scale=2, init_image=None,\n                   out_size=256, decay=0.7, device=device(type='cpu'))\n\nConstructs the Image Stack\nArgs: n_layers: How many layers in the stack base_size: The size of the smallest layer scale: how much larger each subsequent layer is init_image: Pass in a PIL image if you don’t want to start from noise out_size: The output size. Works best if output size ~= base_size * (scale ** (n_layers-1)) decay: When initializing with noise, decay controls scaling of later layers (avoiding too miuch high-frequency noise)\n\nsource\n\n\nImStack.forward\n\n ImStack.forward ()\n\nSums the stacked layers (upsampling them all to out_size) and then runs the result through a sigmoid funtion. Resulting image is a tensor, with values between 0 and 1.\n\nsource\n\n\nImStack.preview\n\n ImStack.preview (n_preview=2)\n\nCreates an image using only the first n_preview layers. Useful if you want to optimise the first few layers before starting to optimize the entire stack.\n\nsource\n\n\nImStack.to_pil\n\n ImStack.to_pil ()\n\nReturn the result as a PIL Image (useful for saving, transforming, viewing etc)\n\nsource\n\n\nImStack.save\n\n ImStack.save (fn)\n\nSave the image to a given filename (fn)\n\nsource\n\n\nImStack.plot_layers\n\n ImStack.plot_layers ()\n\nView the layers in the stack - nice to build intuition about what’s happening."
+  }
+]
